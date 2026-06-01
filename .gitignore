@@ -1,13 +1,16 @@
 # Node
 node_modules/
-dist/
-build/
-.next/
+**/node_modules/
 
 # Java / Spring Boot
 target/
+**/target/
 *.jar
-*.war
+
+# Build outputs
+dist/
+build/
+.next/
 
 # Logs
 logs/
