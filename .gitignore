@@ -1,0 +1,25 @@
+# Node
+node_modules/
+dist/
+build/
+.next/
+
+# Java / Spring Boot
+target/
+*.jar
+*.war
+
+# Logs
+logs/
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Mac
+.DS_Store
+
+# Environment
+.env
+.env.*
