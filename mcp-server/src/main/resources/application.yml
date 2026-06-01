@@ -1,0 +1,18 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: mcp-server
+
+tools:
+  weather.get:
+    name: weather.get
+    url: http://localhost:8081/api/weather
+    method: GET
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
