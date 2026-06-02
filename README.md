@@ -66,6 +66,35 @@ MCP Server (8086)
        npm run dev
 
 
+       React UI
+    |
+POST /chat
+    |
+    v
+API Gateway (8080)
+    |
+    v
+MCP Orchestrator (8085)
+    |
+    +--> Planner
+    +--> Executor
+    +--> MCP Server
+              |
+              +--> Weather Service
+              +--> Finance Service
+    |
+    +--> Formatter Agent
+    |
+    v
+JSON Response
+    |
+    v
+API Gateway
+    |
+    v
+React UI
+
+
                       
 
    
