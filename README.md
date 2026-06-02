@@ -8,6 +8,26 @@
 6. Weather Service
 7. Finance Service
 8. Frontend UI
+
+   
+Flow in the components are calling:
+
+   React UI
+   |
+   v
+API Gateway (8080)
+   |
+   v
+MCP Orchestrator (8085)
+   |
+   v
+MCP Server (8086)
+   |
+   +--> Weather Service (8081)
+   |
+   +--> Finance Service (8082)
+   |
+   +--> Travel Service (8083) ---- (TODO)
    
 
      2. Pull / Ensure LLM is Ready (Ollama)
