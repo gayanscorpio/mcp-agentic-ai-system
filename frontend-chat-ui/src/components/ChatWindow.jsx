@@ -64,10 +64,22 @@ function ChatWindow() {
                     ...prev,
                     {
                         role: "assistant",
-                        content: JSON.stringify(data, null, 2),
+                        content: data.answer,
                         type: "agent",
                     },
                 ]);
+
+                data.results?.forEach((r) => {
+
+                    addLog(`STEP: ${r.step}`);
+                    addLog(
+                        JSON.stringify(
+                            r.result,
+                            null,
+                            2
+                        )
+                    );
+                });
 
                 // NORMAL LLM RESPONSE
             } else {

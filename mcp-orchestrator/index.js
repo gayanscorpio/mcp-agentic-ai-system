@@ -7,12 +7,13 @@ import { retryEngine } from "./agents/reflection.js";
 import { saveMemory } from "./agents/memory.js";
 import { v4 as uuidv4 } from "uuid";
 import { fetchTools } from "./core/fetchTools.js"
+import { formatterAgent } from "./agents/formatter.js";
 
 const TOOLS = await fetchTools();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+//app.use(cors());
 
 // ---------------------- CONFIG ----------------------
 
@@ -69,17 +70,27 @@ app.post("/chat", async (req, res) => {
       results.push({ step, result });
     }
 
-    // 4. MEMORY (Redis / DB)
+    // 4. FORMATTER
+    const answer = await formatterAgent(
+      message,
+      results
+    );
+    console.log("\n✅ FINAL ANSWER:");
+    console.log(answer);
+
+    // 5. MEMORY (Redis / DB)
     await saveMemory(sessionId, {
       message,
       plan,
-      results
+      results,
+      answer
     });
 
     // 5. RESPONSE
     return res.json({
       type: "agentic-mcp",
       sessionId,
+      answer,
       plan,
       results
     });
