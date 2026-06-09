@@ -10,7 +10,10 @@ import axios from "axios";
 
 export async function retryEngine(step, result) {
 
-    const OLLAMA_URL = "http://localhost:11434/api/generate";
+    //const OLLAMA_URL = "http://localhost:11434/api/generate";
+    const OLLAMA_URL =
+        process.env.OLLAMA_URL ||
+        "http://host.docker.internal:11434/api/generate";
 
     const prompt = `
 Check if result is valid.

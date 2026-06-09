@@ -9,6 +9,6 @@ spring:
     gateway:
       routes:
         - id: orchestrator
-          uri: http://localhost:8085
+          uri: http://mcp-orchestrator:8085
           predicates:
             - Path=/chat

@@ -9,7 +9,10 @@ import axios from "axios";
 import { callTool } from "../core/toolClient.js";
 import { buildToolPrompt } from "../core/llm.js";
 
-const OLLAMA_URL = "http://localhost:11434/api/generate";
+//const OLLAMA_URL = "http://localhost:11434/api/generate";
+const OLLAMA_URL =
+    process.env.OLLAMA_URL ||
+    "http://host.docker.internal:11434/api/generate";
 
 export async function executorAgent(step, tools) {
 
@@ -125,7 +128,7 @@ export async function executorAgent(step, tools) {
                 await callTool({
                     tool: toolRequest.tool,
                     input: toolRequest.input,
-                    MCP_SERVER: "http://localhost:8086",
+                    MCP_SERVER: "http://mcp-server:8086",
                     retries: 2
                 });
 

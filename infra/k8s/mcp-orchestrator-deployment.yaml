@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-orchestrator
+  namespace: mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-orchestrator
+  template:
+    metadata:
+      labels:
+        app: mcp-orchestrator
+    spec:
+      containers:
+        - name: mcp-orchestrator
+          image: mcp-orchestrator:dev
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+          env:
+            - name: NODE_ENV
+              value: "dev"
+            - name: OLLAMA_URL
+              value: "http://host.docker.internal:11434/api/generate"
+            - name: REDIS_HOST
+              value: "redis-mcp"
+            - name: REDIS_PORT
+              value: "6379"

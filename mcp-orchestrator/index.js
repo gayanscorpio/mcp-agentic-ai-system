@@ -48,6 +48,7 @@ app.post("/chat", async (req, res) => {
     const plan = await plannerAgent(message);
 
     console.log("PLAN:", plan);
+    console.log("message is :", message);
 
     let results = [];
 

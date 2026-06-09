@@ -35,7 +35,8 @@ function ChatWindow() {
         try {
             addLog("🚀 Sending request to MCP Orchestrator");
 
-            const res = await axios.post("http://localhost:8080/chat", {
+            //call via Ingress 
+            const res = await axios.post("http://api.local/chat", {
                 message: userMsg.content,
             });
 

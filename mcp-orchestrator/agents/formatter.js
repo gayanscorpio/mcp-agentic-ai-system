@@ -1,7 +1,9 @@
 import axios from "axios";
 
+//const OLLAMA_URL = "http://localhost:11434/api/generate";
 const OLLAMA_URL =
-    "http://localhost:11434/api/generate";
+    process.env.OLLAMA_URL ||
+    "http://host.docker.internal:11434/api/generate";
 
 export async function formatterAgent(
     userMessage,

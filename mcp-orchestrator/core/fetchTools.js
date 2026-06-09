@@ -9,7 +9,7 @@ export async function fetchTools() {
         return cachedTools;
     }
 
-    const res = await axios.get("http://localhost:8086/tools");
+    const res = await axios.get("http://mcp-server:8086/tools");
 
     cachedTools = res.data;
 

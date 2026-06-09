@@ -3,16 +3,19 @@
 
 import axios from "axios";
 
-const OLLAMA_URL = "http://localhost:11434/api/generate";
+//const OLLAMA_URL = "http://localhost:11434/api/generate";
+const OLLAMA_URL =
+  process.env.OLLAMA_URL ||
+  "http://host.docker.internal:11434/api/generate";
 
 export async function plannerAgent(message) {
 
-    console.log("\n=================================");
-    console.log("🧠 PLANNER AGENT STARTED");
-    console.log("=================================");
-    console.log("👤 USER REQUEST:", message);
+  console.log("\n=================================");
+  console.log("🧠 PLANNER AGENT STARTED");
+  console.log("=================================");
+  console.log("👤 USER REQUEST:", message);
 
-    const prompt = `
+  const prompt = `
 You are a Senior AI Planning Agent inside an Agentic MCP platform.
 
 MISSION
@@ -150,46 +153,46 @@ ${message}
 Return ONLY valid JSON array.
 `;
 
+  try {
+
+    const res = await axios.post(OLLAMA_URL, {
+      model: "mcp-llama3",
+      prompt,
+      stream: false,
+      options: {
+        temperature: 0.1
+      }
+    });
+
+    console.log("\n📦 RAW PLANNER RESPONSE:");
+    console.log(res.data.response);
+
+    let parsed;
+
     try {
 
-        const res = await axios.post(OLLAMA_URL, {
-            model: "mcp-llama3",
-            prompt,
-            stream: false,
-            options: {
-                temperature: 0.1
-            }
-        });
+      parsed = JSON.parse(res.data.response);
 
-        console.log("\n📦 RAW PLANNER RESPONSE:");
-        console.log(res.data.response);
+    } catch (e) {
 
-        let parsed;
+      console.log("\n⚠️ JSON PARSE FAILED");
+      console.log("Fallback to single step");
 
-        try {
-
-            parsed = JSON.parse(res.data.response);
-
-        } catch (e) {
-
-            console.log("\n⚠️ JSON PARSE FAILED");
-            console.log("Fallback to single step");
-
-            parsed = [message];
-        }
-
-        console.log("\n✅ FINAL PLAN:");
-        console.log(parsed);
-
-        console.log("=================================\n");
-
-        return parsed;
-
-    } catch (error) {
-
-        console.log("\n❌ PLANNER ERROR");
-        console.log(error.message);
-
-        return [message];
+      parsed = [message];
     }
+
+    console.log("\n✅ FINAL PLAN:");
+    console.log(parsed);
+
+    console.log("=================================\n");
+
+    return parsed;
+
+  } catch (error) {
+
+    console.log("\n❌ PLANNER ERROR");
+    console.log(error.message);
+
+    return [message];
+  }
 }
