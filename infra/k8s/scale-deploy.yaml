@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+echo "🚀 Scaling MCP System..."
+
+kubectl scale deployment redis-mcp --replicas=1 -n mcp
+kubectl scale deployment api-gateway --replicas=1 -n mcp
+kubectl scale deployment mcp-server --replicas=1 -n mcp
+kubectl scale deployment mcp-orchestrator --replicas=1 -n mcp
+kubectl scale deployment weather-service --replicas=1 -n mcp
+
+echo "✅ All services scaled up!"
+

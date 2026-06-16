@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+echo "🚀 Re-deploying MCP System..."
+
+kubectl rollout restart deployment api-gateway -n mcp
+kubectl rollout restart deployment mcp-orchestrator -n mcp
+kubectl rollout restart deployment mcp-server -n mcp
+kubectl rollout restart deployment weather-service -n mcp
+
+echo "✅ All services Redeployed!"
