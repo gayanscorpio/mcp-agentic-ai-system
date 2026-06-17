@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class WeatherController {
 
 	private final RestTemplate restTemplate;
 
+	@CircuitBreaker(name = "weatherApi", fallbackMethod = "fallbackWeather")
+	@Retry(name = "weatherApi")
 	@GetMapping("/weather")
 	public String getWeather(@RequestParam String city) {
 
@@ -104,5 +109,9 @@ public class WeatherController {
 
 			throw e;
 		}
+	}
+
+	public String fallbackWeather(String city, Exception ex) {
+		return "{\"status\":\"degraded\",\"message\":\"Weather service temporarily unavailable\"}";
 	}
 }
